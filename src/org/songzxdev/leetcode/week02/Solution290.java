@@ -28,8 +28,27 @@ package org.songzxdev.leetcode.week02;
 //你可以假设 pattern 只包含小写字母， str 包含了由单个空格分隔的小写字母。
 // Related Topics 哈希表
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+/**
+ * 题目：290.单次规律
+ * 标签：哈希表
+ */
 public class Solution290 {
     public boolean wordPattern(String pattern, String str) {
-
+        String[] words = str.split(" ");
+        if (words.length != pattern.length()) {
+            return false;
+        }
+        Map<Object, Integer> indexMap = new HashMap<>(16);
+        for (int i = 0; i < words.length; i++) {
+            if (!Objects.equals(indexMap.put(pattern.charAt(i), i), indexMap.put(words[i], i))) {
+                return false;
+            }
+        }
+        return true;
     }
+
 }
