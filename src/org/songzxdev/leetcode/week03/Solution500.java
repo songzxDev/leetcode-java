@@ -17,7 +17,27 @@ import java.util.*;
  * 标签：哈希表
  */
 public class Solution500 {
+    private final static Set<String> SET1 = new HashSet<>(Arrays.asList("Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p"));
+    private final static Set<String> SET2 = new HashSet<>(Arrays.asList("A", "S", "D", "F", "G", "H", "J", "K", "L", "a", "s", "d", "f", "g", "h", "j", "k", "l"));
+    private final static Set<String> SET3 = new HashSet<>(Arrays.asList("Z", "X", "C", "V", "B", "N", "M", "z", "x", "c", "v", "b", "n", "m"));
+
+    /**
+     * 性能有问题
+     * @param words
+     * @return
+     */
     public String[] findWords(String[] words) {
+        List<String> res = new LinkedList<>();
+        for (String word : words) {
+            Set<String> wdSet = new HashSet<>(Arrays.asList(word.split("")));
+            if (SET1.containsAll(wdSet) || SET2.containsAll(wdSet) || SET3.containsAll(wdSet)) {
+                res.add(word);
+            }
+        }
+        return res.toArray(new String[0]);
+    }
+
+    public String[] findWords1(String[] words) {
         String[] strs = {"QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"};
         Map<Character, Integer> map = new HashMap<>(16);
         for (int i = 0; i < strs.length; i++) {
