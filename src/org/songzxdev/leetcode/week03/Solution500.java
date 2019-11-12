@@ -21,12 +21,45 @@ public class Solution500 {
     private final static Set<String> SET2 = new HashSet<>(Arrays.asList("A", "S", "D", "F", "G", "H", "J", "K", "L", "a", "s", "d", "f", "g", "h", "j", "k", "l"));
     private final static Set<String> SET3 = new HashSet<>(Arrays.asList("Z", "X", "C", "V", "B", "N", "M", "z", "x", "c", "v", "b", "n", "m"));
 
+    private Map<Character, Integer> getWordMap() {
+        String[] strs = {"QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"};
+        Map<Character, Integer> map = new HashMap<>(16);
+        for (int i = 0; i < strs.length; i++) {
+            for (char c : strs[i].toCharArray()) {
+                map.put(c, i);
+            }
+        }
+        return map;
+    }
+
+    public String[] findWords(String[] words) {
+        Map<Character, Integer> map = getWordMap();
+        List<String> res = new LinkedList<>();
+        for (String word : words) {
+            if ("".equals(word)) {
+                continue;
+            }
+            int index = map.get(word.toUpperCase().charAt(0));
+            for (char c : word.toUpperCase().toCharArray()) {
+                if (map.get(c) != index) {
+                    index = -1;
+                    break;
+                }
+            }
+            if(index != -1) {
+                res.add(word);
+            }
+        }
+        return res.toArray(new String[0]);
+    }
+
     /**
      * 性能有问题
+     *
      * @param words
      * @return
      */
-    public String[] findWords(String[] words) {
+    public String[] findWords2(String[] words) {
         List<String> res = new LinkedList<>();
         for (String word : words) {
             Set<String> wdSet = new HashSet<>(Arrays.asList(word.split("")));
@@ -37,30 +70,4 @@ public class Solution500 {
         return res.toArray(new String[0]);
     }
 
-    public String[] findWords1(String[] words) {
-        String[] strs = {"QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"};
-        Map<Character, Integer> map = new HashMap<>(16);
-        for (int i = 0; i < strs.length; i++) {
-            for (char c : strs[i].toCharArray()) {
-                map.put(c, i);
-            }
-        }
-        List<String> res = new LinkedList<>();
-        for (String w : words) {
-            if ("".equals(w)) {
-                continue;
-            }
-            int index = map.get(w.toUpperCase().charAt(0));
-            for (char c : w.toUpperCase().toCharArray()) {
-                if (map.get(c) != index) {
-                    index = -1;
-                    break;
-                }
-            }
-            if (index != -1) {
-                res.add(w);
-            }
-        }
-        return res.toArray(new String[0]);
-    }
 }
