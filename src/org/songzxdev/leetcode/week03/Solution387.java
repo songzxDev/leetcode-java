@@ -10,6 +10,7 @@ package org.songzxdev.leetcode.week03;
 // Related Topics 哈希表 字符串
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -17,13 +18,28 @@ import java.util.Map;
  * 标签：哈希表 字符串
  */
 public class Solution387 {
-    public int firstUniqChar(String str) {
-        Map<Character, Integer> countMap = new HashMap<>(16);
+    public int firstUniqCharSlow(String str) {
+        Map<Character, Integer> countMap = new LinkedHashMap<>(16);
         for (int i = 0; i < str.length(); i++) {
             countMap.put(str.charAt(i), countMap.getOrDefault(str.charAt(i), 0) + 1);
         }
         for (int i = 0; i < str.length(); i++) {
             if (countMap.get(str.charAt(i)) == 1) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    public int firstUniqChar(String str) {
+        // 经测试使用数组来遍历和计数，效率比Map更快，leetcode 平均执行12ms，而Map需要54ms左右！
+        int[] counts = new int[26];
+        for (int i = 0; i < str.length(); i++) {
+            counts[str.charAt(i) - 'a']++;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (counts[str.charAt(i) - 'a'] == 1) {
                 return i;
             }
         }
