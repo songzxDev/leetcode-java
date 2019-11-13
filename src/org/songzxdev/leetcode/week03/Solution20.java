@@ -56,4 +56,18 @@ public class Solution20 {
         }
         return stack.isEmpty();
     }
+
+    /**
+     * 时间复杂度 O(N^2)的暴力法，把成对的括号替换为空字符串
+     * @param strs
+     * @return
+     */
+    private String replaceBrackets(String strs) {
+        String lastReplace = strs;
+        while (lastReplace.contains("()") || lastReplace.contains("[]") || lastReplace.contains("{}")) {
+            lastReplace = lastReplace.replaceAll("\\(\\)", "").replaceAll("\\[]", "")
+                    .replaceAll("\\{}", "");
+        }
+        return lastReplace;
+    }
 }
