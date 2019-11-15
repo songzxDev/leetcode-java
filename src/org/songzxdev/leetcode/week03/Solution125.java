@@ -12,6 +12,33 @@ import java.util.regex.Pattern;
 // Related Topics 双指针 字符串
 
 public class Solution125 {
+
+    /**
+     * 题目：125.验证回文串
+     * 标签：字符串 双指针
+     * 不使用java 自带的替换字符串的replaceAll()函数，速度会快一些，双指针碰到字母和数字才比较，否则头尾指针依次递增或递减
+     * @param s
+     * @return
+     */
+    public boolean isPalindrome(String s) {
+        if (s == null) {
+            return false;
+        }
+        int i = 0, j = s.length() - 1;
+        while (i <= j) {
+            while (i <= j && !Character.isLetterOrDigit(s.charAt(i))) {
+                i++;
+            }
+            while (i <= j && !Character.isLetterOrDigit(s.charAt(j))) {
+                j--;
+            }
+            if (i <= j && Character.toLowerCase(s.charAt(i++)) != Character.toLowerCase(s.charAt(j--))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * 题目：125.验证回文串
      * 标签：字符串 双指针
@@ -19,7 +46,7 @@ public class Solution125 {
      * @param s
      * @return
      */
-    public boolean isPalindrome(String s) {
+    public boolean isPalindromeSlow(String s) {
         if (s == null) {
             return false;
         }
