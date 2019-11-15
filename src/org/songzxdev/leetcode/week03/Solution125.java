@@ -1,5 +1,6 @@
 package org.songzxdev.leetcode.week03;
 
+import java.util.regex.Pattern;
 //给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。
 // 说明：本题中，我们将空字符串定义为有效的回文串。
 // 示例 1:
@@ -22,6 +23,7 @@ public class Solution125 {
         if (s == null) {
             return false;
         }
+        // java 正则替换字符串还是有点慢
         s = s.replaceAll("[^0-9a-zA-Z]", "").toLowerCase();
         int i = 0, j = s.length() - 1;
         while (i <= j) {
