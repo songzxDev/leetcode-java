@@ -9,20 +9,19 @@ import java.util.Map;
  * 优化后的代码
  */
 public class Solution76 {
+
     public String minWindow(String s, String t) {
         if (s == null || t == null || s.length() < t.length()) {
             return "";
         }
-        Map<Character, Integer> tCountMap = new HashMap<>(16);
-        for (Character tc : t.toCharArray()) {
-            tCountMap.put(tc, tCountMap.getOrDefault(tc, 0) + 1);
-        }
+        Map<Character, Integer> tCountMap = getTtCountMap(t);
         int left = 0, right = 0, match = 0, start = 0, minLength = Integer.MAX_VALUE;
-        HashMap<Character, Integer> tMap = new HashMap<>(16);
+        Map<Character, Integer> tMap = new HashMap<>(16);
         while (left <= right && right < s.length()) {
-            if (tCountMap.containsKey(s.charAt(right))) {
-                tMap.put(s.charAt(right), tMap.getOrDefault(s.charAt(right), 0) + 1);
-                if (tMap.get(s.charAt(right)).equals(tCountMap.get(s.charAt(right)))) {
+            char rightKey = s.charAt(right);
+            if (tCountMap.containsKey(rightKey)) {
+                tMap.put(rightKey, tMap.getOrDefault(rightKey, 0) + 1);
+                if (tMap.get(rightKey).equals(tCountMap.get(rightKey))) {
                     match++;
                 }
             }
@@ -32,9 +31,10 @@ public class Solution76 {
                     start = left;
                     minLength = right - left;
                 }
-                if (tCountMap.containsKey(s.charAt(left))) {
-                    tMap.put(s.charAt(left), tMap.get(s.charAt(left)) - 1);
-                    if (tMap.get(s.charAt(left)) < tCountMap.get(s.charAt(left))) {
+                char leftKey = s.charAt(left);
+                if (tCountMap.containsKey(leftKey)) {
+                    tMap.put(leftKey, tMap.get(leftKey) - 1);
+                    if (tMap.get(leftKey) < tCountMap.get(leftKey)) {
                         match--;
                     }
                 }
@@ -43,6 +43,14 @@ public class Solution76 {
 
         }
         return minLength == Integer.MAX_VALUE ? "" : s.substring(start, start + minLength);
+    }
+
+    private Map<Character, Integer> getTtCountMap(String t) {
+        Map<Character, Integer> tCountMap = new HashMap<>(16);
+        for (Character tc : t.toCharArray()) {
+            tCountMap.put(tc, tCountMap.getOrDefault(tc, 0) + 1);
+        }
+        return tCountMap;
     }
 
     public static void main(String[] args) {
