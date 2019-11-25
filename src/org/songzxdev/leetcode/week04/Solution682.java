@@ -45,6 +45,7 @@ package org.songzxdev.leetcode.week04;
 //
 // Related Topics 栈
 
+import java.util.LinkedList;
 import java.util.Stack;
 
 //给定一个字符串列表，每个字符串可以是以下四种类型之一：
@@ -54,6 +55,31 @@ import java.util.Stack;
 //4. "C"（一个操作，这不是一个回合的分数）：表示您获得的最后一个有效 回合的分数是无效的，应该被移除。
 
 public class Solution682 {
+
+    /**
+     * @param ops
+     * @return
+     */
+    public int calPoints2(String[] ops) {
+        LinkedList<Integer> list = new LinkedList<>();
+        int sums = 0;
+        for (String op : ops) {
+            if (!"C".equals(op) && !"D".equals(op) && !"+".equals(op)) {
+                list.add(Integer.parseInt(op, 10));
+                sums += list.peekLast();
+            } else if (list.size() > 0 && "C".equals(op)) {
+                sums -= list.removeLast();
+            } else if (list.size() > 0 && "D".equals(op)) {
+                list.add(list.peekLast() * 2);
+                sums += list.peekLast();
+            } else if (list.size() > 0 && "+".equals(op)) {
+                list.add(list.size() == 1 ? list.peekLast() : list.peekLast() + list.get(list.size() - 2));
+                sums += list.peekLast();
+            }
+        }
+        return sums;
+    }
+
     /**
      * 题目：682.棒球比赛
      * 标签：栈
