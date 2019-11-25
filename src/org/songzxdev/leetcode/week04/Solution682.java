@@ -57,6 +57,7 @@ public class Solution682 {
     /**
      * 题目：682.棒球比赛
      * 标签：栈
+     *
      * @param ops
      * @return
      */
@@ -73,7 +74,7 @@ public class Solution682 {
                 stack.push(stack.size() == 1 ? stack.peek() : stack.peek() + stack.get(stack.size() - 2));
                 sum += stack.peek();
             } else if (!"C".equals(op) && !"D".equals(op) && !"+".equals(op)) {
-                stack.push(Integer.valueOf(op));
+                stack.push(Integer.parseInt(op, 10));
                 sum += stack.peek();
             }
         }
