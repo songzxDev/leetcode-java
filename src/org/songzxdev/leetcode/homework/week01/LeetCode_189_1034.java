@@ -38,11 +38,38 @@ public class LeetCode_189_1034 {
      * 题目：189.旋转数组（https://leetcode-cn.com/problems/rotate-array/）
      * 学号：1034（五期一班三组）
      * 空间复杂度为O(1)的原地算法
+     * 时间复杂度为：O(2n)
      *
      * @param nums
      * @param k
      */
     public void rotate(int[] nums, int k) {
+        k %= nums.length;
+        if (k > 0) {
+            reverse(0, nums.length - 1, nums);
+            reverse(0, k - 1, nums);
+            reverse(k, nums.length - 1, nums);
+        }
+    }
+
+    private void reverse(int begin, int end, int[] nums) {
+        while (begin < end) {
+            int tmp = nums[end];
+            nums[end--] = nums[begin];
+            nums[begin++] = tmp;
+        }
+    }
+
+    /**
+     * 题目：189.旋转数组（https://leetcode-cn.com/problems/rotate-array/）
+     * 学号：1034（五期一班三组）
+     * 空间复杂度为O(1)的原地算法
+     * 时间复杂度为：O(n * k)
+     *
+     * @param nums
+     * @param k
+     */
+    public void rotateSlow(int[] nums, int k) {
         // 输入: [1,2,3,4,5,6,7] 和 k = 3
         // 向右旋转 1 步: [7,1,2,3,4,5,6]
         // 向右旋转 2 步: [6,7,1,2,3,4,5]
@@ -72,6 +99,6 @@ public class LeetCode_189_1034 {
         LeetCode_189_1034 l = new LeetCode_189_1034();
         int[] nums = {1, 2, 3, 4, 5, 6, 7};
         // [5,6,7,1,2,3,4]
-        l.rotate(nums, 3);
+        l.rotateSlow(nums, 3);
     }
 }
