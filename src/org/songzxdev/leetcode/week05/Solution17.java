@@ -1,6 +1,6 @@
 package org.songzxdev.leetcode.week05;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 //给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。
@@ -23,7 +23,7 @@ public class Solution17 {
     private static final String[] MEMO = new String[]{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
 
     public List<String> letterCombinations(String digits) {
-        List<String> res = new LinkedList<>();
+        List<String> res = new ArrayList<>(16);
         if (digits != null && digits.length() > 0) {
             helper(res, 0, "", digits);
         }
