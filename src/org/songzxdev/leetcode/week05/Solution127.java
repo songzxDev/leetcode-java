@@ -50,7 +50,7 @@ import java.util.*;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution127 {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-        Map<String, ArrayList<String>> treeMap = new HashMap<>(16);
+        HashMap<String, ArrayList<String>> treeMap = new HashMap<>(16);
         final int LEN = endWord.length();
         wordList.forEach(word -> {
             for (int k = 0; k < LEN; k++) {
@@ -66,8 +66,7 @@ class Solution127 {
         Set<String> visited = new HashSet<String>() {{
             add(beginWord);
         }};
-
-        while (queue.size() > 0) {
+        while (!queue.isEmpty()) {
             Pair<String, Integer> pair = queue.poll();
             for (int k = 0; k < LEN; k++) {
                 String statusKey = pair.getKey().substring(0, k) + '*' + pair.getKey().substring(k + 1);
@@ -80,11 +79,9 @@ class Solution127 {
                             queue.add(new Pair<>(word, pair.getValue() + 1));
                         }
                     }
-                    treeMap.put(statusKey, new ArrayList<>());
                 }
             }
         }
-
         return 0;
     }
 
