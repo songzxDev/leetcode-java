@@ -42,22 +42,28 @@ import java.util.Arrays;
 
 public class LeetCode1160 {
     public int countCharacters(String[] words, String chars) {
+        if (words == null || words.length == 0 || chars == null || chars.length() == 0) {
+            return 0;
+        }
         int ans = 0;
         int[] chrCount = new int[26];
         for (char k : chars.toCharArray()) {
             chrCount[k - 'a']++;
         }
         for (String word : words) {
-            int[] wordCount = new int[26];
-            boolean isAdd = true;
-            for (char wd : word.toCharArray()) {
-                if (wordCount[wd - 'a']++ == chrCount[wd - 'a']) {
-                    isAdd = false;
-                    break;
-                }
-            }
-            ans += isAdd ? word.length() : 0;
+            ans += knowWord(word, chrCount) ? word.length() : 0;
         }
         return ans;
+    }
+
+    private boolean knowWord(String word, int[] chrCount) {
+        int[] wordCount = new int[26];
+        for (int i = 0; i < word.length(); i++) {
+            char wd = word.charAt(i);
+            if (wordCount[wd - 'a']++ == chrCount[wd - 'a']) {
+                return false;
+            }
+        }
+        return true;
     }
 }
