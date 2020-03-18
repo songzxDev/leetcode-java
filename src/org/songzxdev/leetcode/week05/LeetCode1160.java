@@ -48,10 +48,10 @@ public class LeetCode1160 {
             chrCount[k - 'a']++;
         }
         for (String word : words) {
-            int[] tmp = Arrays.copyOf(chrCount, 26);
+            int[] wordCount = new int[26];
             boolean isAdd = true;
             for (char wd : word.toCharArray()) {
-                if (tmp[wd - 'a']-- == 0) {
+                if (wordCount[wd - 'a']++ == chrCount[wd - 'a']) {
                     isAdd = false;
                     break;
                 }
