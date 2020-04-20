@@ -28,16 +28,20 @@ package org.songzxdev.leetcode.study.week01;
 //
 //
 
+import java.util.Arrays;
+
 public class LeetCode912 {
     public int[] sortArray(int[] nums) {
         if (nums != null && nums.length > 1) {
-            mergeSort(nums, 0, nums.length - 1);
+//            mergeSort(nums, 0, nums.length - 1);
+            countSort(nums);
         }
         return nums;
     }
 
     /**
      * 归并排序
+     *
      * @param array
      * @param left
      * @param right
@@ -65,6 +69,33 @@ public class LeetCode912 {
                 temp[k++] = array[j++];
             }
             System.arraycopy(temp, 0, array, left, temp.length);
+        }
+    }
+
+    /**
+     * 计数排序
+     *
+     * @param array
+     */
+    private static void countSort(int[] array) {
+        if (array != null && array.length > 1) {
+            int minNum = 0, maxNum = 0, n = array.length;
+            for (int num : array) {
+                minNum = Math.min(minNum, num);
+                maxNum = Math.max(maxNum, num);
+            }
+            int[] countArray = new int[maxNum - minNum + 1];
+            for (int num : array) {
+                countArray[num - minNum]++;
+            }
+            for (int i = 1; i < countArray.length; i++) {
+                countArray[i] += countArray[i - 1];
+            }
+            int[] temp = Arrays.copyOf(array, n);
+            for (int k = n - 1; k >= 0; k--) {
+                int p = --countArray[temp[k] - minNum];
+                array[p] = temp[k];
+            }
         }
     }
 }
