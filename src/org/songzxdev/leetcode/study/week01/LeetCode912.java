@@ -34,7 +34,8 @@ public class LeetCode912 {
     public int[] sortArray(int[] nums) {
         if (nums != null && nums.length > 1) {
 //            mergeSort(nums, 0, nums.length - 1);
-            countSort(nums);
+//            countSort(nums);
+            quickSort(nums, 0, nums.length - 1);
         }
         return nums;
     }
@@ -97,5 +98,36 @@ public class LeetCode912 {
                 array[p] = temp[k];
             }
         }
+    }
+
+    /**
+     * 快速排序
+     *
+     * @param array
+     * @param begin
+     * @param end
+     */
+    private static void quickSort(int[] array, int begin, int end) {
+        if (begin < end) {
+            int pivot = partition(array, begin, end);
+            quickSort(array, begin, pivot - 1);
+            quickSort(array, pivot + 1, end);
+        }
+    }
+
+    private static int partition(int[] array, int begin, int end) {
+        // pivot: 标杆位置，counter: 小于pivot的元素的个数
+        int pivot = end, counter = begin;
+        for (int i = begin; i < end; i++) {
+            if (array[i] < array[pivot]) {
+                int temp = array[i];
+                array[i] = array[counter];
+                array[counter++] = temp;
+            }
+        }
+        int temp = array[pivot];
+        array[pivot] = array[counter];
+        array[counter] = temp;
+        return counter;
     }
 }
