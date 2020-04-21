@@ -61,8 +61,10 @@ package org.songzxdev.leetcode.study.week01;
 //
 // Related Topics 数学 字符串
 public class LeetCode8 {
+    private static final long OUT = 0x7fffffff / 10;
+
     public int myAtoi(String str) {
-        final long out = 0x7fffffff / 10;
+
         if (str == null || str.length() == 0) {
             return 0;
         }
@@ -78,7 +80,7 @@ public class LeetCode8 {
             if (digit < 0 || digit > 9) {
                 break;
             }
-            boolean isOut = (out == ans && 7 < digit) || out < ans;
+            boolean isOut = (OUT == ans && 7 < digit) || OUT < ans;
             if (isOut) {
                 return sign == 1 ? 0x7fffffff : -0x80000000;
             }
