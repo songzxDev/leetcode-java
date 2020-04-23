@@ -52,12 +52,12 @@ public class LeetCode127 {
         if (!wordSet.contains(endWord)) {
             return 0;
         }
+        int steps = 1;
         Set<String> beginSet = new HashSet<>(), endSet = new HashSet<>();
         beginSet.add(beginWord);
         endSet.add(endWord);
         wordSet.remove(beginWord);
         wordSet.remove(endWord);
-        int steps = 1;
         while (!beginSet.isEmpty() && !endSet.isEmpty()) {
             Set<String> nextSet = new HashSet<>();
             for (String word : beginSet) {
