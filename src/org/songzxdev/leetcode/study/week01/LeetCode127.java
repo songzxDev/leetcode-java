@@ -1,6 +1,5 @@
 package org.songzxdev.leetcode.study.week01;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,33 +52,35 @@ public class LeetCode127 {
         if (!wordSet.contains(endWord)) {
             return 0;
         }
-        Set<String> beginSet = new HashSet<>(), endSet = new HashSet<>(), visited = new HashSet<>();
-        int len = 1;
+        Set<String> beginSet = new HashSet<>(), endSet = new HashSet<>();
         beginSet.add(beginWord);
         endSet.add(endWord);
+        wordSet.remove(beginWord);
+        wordSet.remove(endWord);
+        int steps = 1;
         while (!beginSet.isEmpty() && !endSet.isEmpty()) {
             Set<String> nextSet = new HashSet<>();
             for (String word : beginSet) {
-                char[] chrs = word.toCharArray();
-                for (int i = 0; i < chrs.length; i++) {
+                char[] wordArray = word.toCharArray();
+                for (int i = 0; i < wordArray.length; i++) {
+                    char old = wordArray[i];
                     for (char c = 'a'; c <= 'z'; c++) {
-                        char old = chrs[i];
-                        chrs[i] = c;
-                        String target = String.valueOf(chrs);
+                        wordArray[i] = c;
+                        String target = String.valueOf(wordArray);
                         if (endSet.contains(target)) {
-                            return len + 1;
+                            return steps + 1;
                         }
-                        if (!visited.contains(target) && wordSet.contains(target)) {
+                        if (wordSet.contains(target)) {
                             nextSet.add(target);
-                            visited.add(target);
+                            wordSet.remove(target);
                         }
-                        chrs[i] = old;
                     }
+                    wordArray[i] = old;
                 }
             }
+            steps++;
             beginSet = nextSet.size() < endSet.size() ? nextSet : endSet;
             endSet = beginSet.size() < endSet.size() ? endSet : nextSet;
-            len++;
         }
         return 0;
     }
