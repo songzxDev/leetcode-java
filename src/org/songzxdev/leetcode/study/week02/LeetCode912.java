@@ -5,10 +5,10 @@ import java.util.Arrays;
 public class LeetCode912 {
 
     public int[] sortArray(int[] nums) {
-        if (nums == null || nums.length < 2) {
-            return nums;
+        if (nums != null && nums.length > 1) {
+            quickSort(nums, 0, nums.length - 1);
         }
-        return countSort(nums);
+        return nums;
     }
 
     private int[] countSort(int[] nums) {
@@ -31,6 +31,26 @@ public class LeetCode912 {
             nums[k] = copyArray[f];
         }
         return nums;
+    }
+
+    private int partition(int[] nums, int begin, int end) {
+        int pivot = end, counter = begin;
+        for (int i = begin; i < end; i++) {
+            if (nums[i] < nums[pivot]) {
+                int temp = nums[i]; nums[i] = nums[counter]; nums[counter] = temp;
+                counter++;
+            }
+        }
+        int temp = nums[pivot]; nums[pivot] = nums[counter]; nums[counter] = temp;
+        return counter;
+    }
+
+    private void quickSort(int[] nums, int begin, int end) {
+        if (begin < end) {
+            int pivoit = partition(nums, begin, end);
+            quickSort(nums, begin, pivoit - 1);
+            quickSort(nums, pivoit + 1, end);
+        }
     }
 
 
