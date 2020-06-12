@@ -1,7 +1,6 @@
 package org.songzxdev.leetcode.study.week02;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Definition for a binary tree node.
@@ -36,7 +35,54 @@ class Solution {
         return curRoot;
     }
 
-
+    /**
+     * 127.单次接龙
+     * https://leetcode-cn.com/problems/word-ladder/description/
+     *
+     * @param beginWord
+     * @param endWord
+     * @param wordList
+     * @return
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if (wordList.isEmpty() || !wordList.contains(endWord)) {
+            return 0;
+        }
+        Set<String> wordSet = new HashSet<>(wordList), beginSet = new HashSet<>(), endSet = new HashSet<>();
+        int steps = 1;
+        beginSet.add(beginWord);
+        endSet.add(endWord);
+        while (!beginSet.isEmpty()) {
+            if (beginSet.size() > endSet.size()) {
+                Set<String> tmp = beginSet;
+                beginSet = endSet;
+                endSet = tmp;
+            }
+            Set<String> nextSet = new HashSet<>();
+            steps++;
+            for (String word : beginSet) {
+                char[] wordArray = word.toCharArray();
+                for (int i = 0; i < wordArray.length; i++) {
+                    char old = wordArray[i];
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (old != c) {
+                            wordArray[i] = c;
+                            String target = String.valueOf(wordArray);
+                            if (endSet.contains(target)) {
+                                return steps;
+                            }
+                            if (wordSet.remove(target)) {
+                                nextSet.add(target);
+                            }
+                        }
+                    }
+                    wordArray[i] = old;
+                }
+            }
+            beginSet = nextSet;
+        }
+        return 0;
+    }
 }
 
 class TreeNode {
