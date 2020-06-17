@@ -83,6 +83,27 @@ class Solution {
         }
         return 0;
     }
+
+    /**
+     * 98.验证是否为有效的二叉搜索树
+     * https://leetcode-cn.com/problems/validate-binary-search-tree/
+     *
+     * @param root
+     * @return
+     */
+    public boolean isValidBST(TreeNode root) {
+        return validHelper(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private boolean validHelper(TreeNode node, long leftFar, long rightFar) {
+        if (node == null) {
+            return true;
+        }
+        if (leftFar >= node.val || node.val >= rightFar) {
+            return false;
+        }
+        return validHelper(node.left, leftFar, node.val) && validHelper(node.right, node.val, rightFar);
+    }
 }
 
 class TreeNode {
