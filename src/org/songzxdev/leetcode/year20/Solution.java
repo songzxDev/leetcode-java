@@ -1,6 +1,7 @@
 package org.songzxdev.leetcode.year20;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 public class Solution {
     public int[] twoSum(int[] nums, int target) {
@@ -109,10 +110,54 @@ public class Solution {
         return 0;
     }
 
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> res = new ArrayList<>();
+        if (n < 1) {
+            return res;
+        }
+        List<Integer> temp = new ArrayList<>(n);
+        Set<Integer> lie = new HashSet<>(), pie = new HashSet<>(), na = new HashSet<>();
+        dfsNQueens(0, n, temp, lie, pie, na, res);
+        return res;
+    }
+
+    private void dfsNQueens(int row, int n, List<Integer> temp, Set<Integer> lie, Set<Integer> pie, Set<Integer> na, List<List<String>> res) {
+        if (row >= n) {
+            res.add(convertBoards(temp, n));
+            return;
+        }
+        for (int l = 0; l < n; l++) {
+            if (!(lie.contains(l) || pie.contains(row + l) || na.contains(row - l))) {
+                temp.add(l);
+                lie.add(l);
+                pie.add(row + l);
+                na.add(row - l);
+                dfsNQueens(row + 1, n, temp, lie, pie, na, res);
+                temp.remove(temp.size() - 1);
+                lie.remove(l);
+                pie.remove(row + l);
+                na.remove(row - l);
+            }
+        }
+    }
+
+    private List<String> convertBoards(List<Integer> temp, int n) {
+        List<String> boards = new ArrayList<>(n);
+        for (int num : temp) {
+            StringBuilder stb = new StringBuilder();
+            for (int i = 0; i < n; i++) {
+                stb.append(i == num ? "Q" : ".");
+            }
+            boards.add(stb.toString());
+        }
+        return boards;
+    }
+
+
     public static void main(String[] args) {
         Solution solution = new Solution();
-        TreeNode treeNode = solution.buildTree(new int[]{3, 9, 20, 15, 7}, new int[]{9, 3, 15, 20, 7});
-        System.out.println(treeNode);
+        System.out.println(solution.solveNQueens(10));
     }
 }
 
