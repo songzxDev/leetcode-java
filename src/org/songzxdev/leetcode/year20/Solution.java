@@ -114,39 +114,33 @@ public class Solution {
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> res = new ArrayList<>(n);
         Set<Integer> lie = new HashSet<>(), pie = new HashSet<>(), na = new HashSet<>();
-        List<Integer> temp = new ArrayList<>(n);
-        dfsNQueens(0, n, lie, pie, na, temp, res);
+        List<Integer> rows = new ArrayList<>(n);
+        dfsNQueens(0, n, lie, pie, na, res, rows);
         return res;
     }
 
-    private void dfsNQueens(int row, int n, Set<Integer> lie, Set<Integer> pie, Set<Integer> na, List<Integer> temp, List<List<String>> res) {
+    private void dfsNQueens(int row, int n, Set<Integer> lie, Set<Integer> pie, Set<Integer> na, List<List<String>> res, List<Integer> rows) {
         if (row >= n) {
-            res.add(convertBoard(temp, n));
+            res.add(convertBoards(rows, n));
             return;
         }
         for (int l = 0; l < n; l++) {
             if (!(lie.contains(l) || pie.contains(row + l) || na.contains(row - l))) {
-                lie.add(l);
-                pie.add(row + l);
-                na.add(row - l);
-                temp.add(l);
-                dfsNQueens(row + 1, n, lie, pie, na, temp, res);
-                lie.remove(l);
-                pie.remove(row + l);
-                na.remove(row - l);
-                temp.remove(temp.size() - 1);
+                rows.add(l); lie.add(l); pie.add(row + l); na.add(row - l);
+                dfsNQueens(row + 1, n, lie, pie, na, res, rows);
+                rows.remove(rows.size() - 1); lie.remove(l); pie.remove(row + l); na.remove(row - l);
             }
         }
     }
 
-    private List<String> convertBoard(List<Integer> temp, int n) {
+    private List<String> convertBoards(List<Integer> rows, int n) {
         List<String> boards = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) {
-            StringBuilder stb = new StringBuilder();
-            for (int t: temp) {
-                stb.append(t == i ? "Q" : ".");
+        for (int r: rows) {
+            char[] board = new char[n];
+            for (int i = 0; i < n; i++) {
+                board[i] = r == i ? 'Q' : '.';
             }
-            boards.add(stb.toString());
+            boards.add(String.valueOf(board));
         }
         return boards;
     }
