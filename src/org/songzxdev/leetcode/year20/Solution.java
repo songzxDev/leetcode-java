@@ -112,42 +112,39 @@ public class Solution {
 
 
     public List<List<String>> solveNQueens(int n) {
-        List<List<String>> res = new ArrayList<>();
-        if (n < 1) {
-            return res;
-        }
-        List<Integer> temp = new ArrayList<>(n);
+        List<List<String>> res = new ArrayList<>(n);
         Set<Integer> lie = new HashSet<>(), pie = new HashSet<>(), na = new HashSet<>();
-        dfsNQueens(0, n, temp, lie, pie, na, res);
+        List<Integer> temp = new ArrayList<>(n);
+        dfsNQueens(0, n, lie, pie, na, temp, res);
         return res;
     }
 
-    private void dfsNQueens(int row, int n, List<Integer> temp, Set<Integer> lie, Set<Integer> pie, Set<Integer> na, List<List<String>> res) {
+    private void dfsNQueens(int row, int n, Set<Integer> lie, Set<Integer> pie, Set<Integer> na, List<Integer> temp, List<List<String>> res) {
         if (row >= n) {
-            res.add(convertBoards(temp, n));
+            res.add(convertBoard(temp, n));
             return;
         }
         for (int l = 0; l < n; l++) {
             if (!(lie.contains(l) || pie.contains(row + l) || na.contains(row - l))) {
-                temp.add(l);
                 lie.add(l);
                 pie.add(row + l);
                 na.add(row - l);
-                dfsNQueens(row + 1, n, temp, lie, pie, na, res);
-                temp.remove(temp.size() - 1);
+                temp.add(l);
+                dfsNQueens(row + 1, n, lie, pie, na, temp, res);
                 lie.remove(l);
                 pie.remove(row + l);
                 na.remove(row - l);
+                temp.remove(temp.size() - 1);
             }
         }
     }
 
-    private List<String> convertBoards(List<Integer> temp, int n) {
+    private List<String> convertBoard(List<Integer> temp, int n) {
         List<String> boards = new ArrayList<>(n);
-        for (int num : temp) {
+        for (int i = 0; i < n; i++) {
             StringBuilder stb = new StringBuilder();
-            for (int i = 0; i < n; i++) {
-                stb.append(i == num ? "Q" : ".");
+            for (int t: temp) {
+                stb.append(t == i ? "Q" : ".");
             }
             boards.add(stb.toString());
         }
@@ -157,7 +154,7 @@ public class Solution {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        System.out.println(solution.solveNQueens(10));
+        System.out.println(solution.solveNQueens(4));
     }
 }
 
