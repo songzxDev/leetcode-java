@@ -126,16 +126,22 @@ public class Solution {
         }
         for (int l = 0; l < n; l++) {
             if (!(lie.contains(l) || pie.contains(row + l) || na.contains(row - l))) {
-                rows.add(l); lie.add(l); pie.add(row + l); na.add(row - l);
+                rows.add(l);
+                lie.add(l);
+                pie.add(row + l);
+                na.add(row - l);
                 dfsNQueens(row + 1, n, lie, pie, na, res, rows);
-                rows.remove(rows.size() - 1); lie.remove(l); pie.remove(row + l); na.remove(row - l);
+                rows.remove(rows.size() - 1);
+                lie.remove(l);
+                pie.remove(row + l);
+                na.remove(row - l);
             }
         }
     }
 
     private List<String> convertBoards(List<Integer> rows, int n) {
         List<String> boards = new ArrayList<>(n);
-        for (int r: rows) {
+        for (int r : rows) {
             char[] board = new char[n];
             for (int i = 0; i < n; i++) {
                 board[i] = r == i ? 'Q' : '.';
@@ -143,6 +149,17 @@ public class Solution {
             boards.add(String.valueOf(board));
         }
         return boards;
+    }
+
+    public int longestCommonSubsequence(String text1, String text2) {
+        char[] chrArr1 = text1.toCharArray(), chrArr2 = text2.toCharArray();
+        int[][] res = new int[text1.length() + 1][text2.length() + 1];
+        for (int i = 1; i <= chrArr1.length; i++) {
+            for (int j = 1; j <= chrArr2.length; j++) {
+                res[i][j] = chrArr1[i - 1] == chrArr2[j - 1] ? res[i - 1][j - 1] + 1 : Math.max(res[i - 1][j], res[i][j - 1]);
+            }
+        }
+        return res[text1.length()][text2.length()];
     }
 
 
